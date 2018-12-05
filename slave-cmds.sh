@@ -89,8 +89,8 @@ function netlib_install {
 
     apt-get -y install libblas3 liblapack3
 
-    cp /usr/lib/libblas/libblas.so.3.0  ${DIR_NETLIB}
-    cp /usr/lib/lapack/liblapack.so.3.0 ${DIR_NETLIB}
+    cp /usr/lib/x86_64-linux-gnu/blas/libblas.so.3  ${DIR_NETLIB}
+    cp /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3 ${DIR_NETLIB}
 
     apt-get -y purge libblas3 liblapack3
     apt-get -y autoremove
@@ -115,7 +115,7 @@ function netlib_check {
 
     echo "Started checking netlib"
 
-    LD_PRELOAD="${DIR_NETLIB}/libblas.so.3.0 ${DIR_NETLIB}/liblapack.so.3.0" Rscript -e "blasLibName='netlib'; source('${R_BENCHMARK_SCRIPT}')"
+    LD_PRELOAD="${DIR_NETLIB}/libblas.so.3 ${DIR_NETLIB}/liblapack.so.3" Rscript -e "blasLibName='netlib'; source('${R_BENCHMARK_SCRIPT}')"
 
     echo "Finished checking netlib"
 }
