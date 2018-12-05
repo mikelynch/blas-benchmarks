@@ -186,9 +186,9 @@ function openblas_install {
 
     apt-get -y install libopenblas-base
 
-    cp /usr/lib/libopenblas.so.0             ${DIR_OPENBLAS}
-    cp /usr/lib/openblas-base/libblas.so.3   ${DIR_OPENBLAS}
-    cp /usr/lib/openblas-base/liblapack.so.3 ${DIR_OPENBLAS}
+    cp /usr/lib/x86_64-linux-gnu/libopenblas.so.0             ${DIR_OPENBLAS}
+    cp /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3   ${DIR_OPENBLAS}
+    cp /usr/lib/x86_64-linux-gnu/openblas/liblapack.so.3 ${DIR_OPENBLAS}
 
     apt-get -y purge libopenblas-base
     apt-get -y autoremove
