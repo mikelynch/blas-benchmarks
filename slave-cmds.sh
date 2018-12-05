@@ -404,7 +404,7 @@ function blis_install {
 
     git clone https://github.com/flame/blis.git
     cd blis
-    git checkout 32db0adc218ea4ae370164dbe8d23b41cd3526d3 # 17.05.2016
+    git checkout be7c57819cfd48adb175d9a480cc9f37928645c1
     
     # if target architecture can not be detected ("reference" is used), then replace "auto" to e.g. "haswell" ; see https://github.com/flame/blis/wiki/BuildSystem
     ./configure -t pthreads --enable-shared auto
