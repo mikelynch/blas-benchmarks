@@ -137,9 +137,9 @@ function atlas_st_install {
 
     apt-get -y install libatlas3-base
 
-    cp /usr/lib/atlas-base/libatlas.so.3        ${DIR_ATLAS_ST}
-    cp /usr/lib/atlas-base/atlas/libblas.so.3   ${DIR_ATLAS_ST}
-    cp /usr/lib/atlas-base/atlas/liblapack.so.3 ${DIR_ATLAS_ST}
+    cp /usr/lib/x86_64-linux-gnu/libatlas.so.3        ${DIR_ATLAS_ST}
+    cp /usr/lib/x86_64-linux-gnu/atlas/libblas.so.3   ${DIR_ATLAS_ST}
+    cp /usr/lib/x86_64-linux-gnu/atlas/liblapack.so.3 ${DIR_ATLAS_ST}
 
     apt-get -y purge libatlas3-base
     apt-get -y autoremove
