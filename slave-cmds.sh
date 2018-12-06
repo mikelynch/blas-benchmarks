@@ -26,12 +26,10 @@ function mro_install {
     lspci -nn | grep -oP "VGA.*\KNVIDIA.*?]" >> host-info.log
 
     # update debian repos & upgrade packages
-    echo "deb http://snapshot.debian.org/archive/debian/20160411T102554Z/ jessie-backports main" >> /etc/apt/sources.list
-    apt-get -o Acquire::Check-Valid-Until=false update
-    DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" upgrade
+    DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y upgrade
 
     # install core packages
-    apt-get -y install build-essential gfortran ed htop libxml2-dev ca-certificates curl libcurl4-openssl-dev gdebi-core sshpass git cpufrequtils cmake initramfs-tools linux-headers-$(uname -r) nvidia-detect bc
+    apt-get -y install build-essential gfortran ed htop libxml2-dev ca-certificates curl libcurl4-openssl-dev gdebi-core sshpass git cpufrequtils cmake initramfs-tools linux-headers-$(uname -r) bc python wget
 
     # disable CPU throttling for ATLAS multi-threading
     echo performance | tee /sys/devices/system/cpu/cpu**/cpufreq/scaling_governor
