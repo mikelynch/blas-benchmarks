@@ -355,13 +355,12 @@ function mkl_install {
 
     mkdir ${DIR_MKL}
 
-    wget ${WGET_OPTIONS} https://mran.microsoft.com/install/mro/${MRO_VERSION}/RevoMath-${MRO_VERSION}.tar.gz
-    tar -xvzf RevoMath-${MRO_VERSION}.tar.gz
-    rm RevoMath-${MRO_VERSION}.tar.gz
-    
-    cp RevoMath/mkl/libs/*.so ${DIR_MKL}
+    curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB | apt-key add -
+    wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/sources.list.d/intelproducts.list
 
-    rm RevoMath -r
+    apt-get update && apt-get install -y intel-mkl-64bit-2019.1-053
+    
+    cp -R /opt/intel/mkl/lib/intel64/*.so ${DIR_MKL}
     
     echo "Installed files:"
     find ${DIR_MKL} -type f
@@ -373,7 +372,7 @@ function mkl_check {
 
     echo "Started checking MKL"
 
-    LD_PRELOAD="${DIR_MKL}/libRblas.so ${DIR_MKL}/libRlapack.so ${DIR_MKL}/libmkl_vml_mc3.so ${DIR_MKL}/libmkl_vml_def.so ${DIR_MKL}/libmkl_gnu_thread.so ${DIR_MKL}/libmkl_core.so ${DIR_MKL}/libmkl_gf_lp64.so ${DIR_MKL}/libiomp5.so ${DIR_MKL}/libmkl_gf_ilp64.so" MKL_INTERFACE_LAYER="GNU,LP64" MKL_THREADING_LAYER="GNU" Rscript -e "blasLibName='mkl'; source('${R_BENCHMARK_SCRIPT}')"
+    LD_PRELOAD="${DIR_MKL}/libmkl_vml_mc3.so ${DIR_MKL}/libmkl_vml_def.so ${DIR_MKL}/libmkl_gnu_thread.so ${DIR_MKL}/libmkl_core.so ${DIR_MKL}/libmkl_gf_lp64.so ${DIR_MKL}/libmkl_gf_ilp64.so" MKL_INTERFACE_LAYER="GNU,LP64" MKL_THREADING_LAYER="GNU" Rscript -e "blasLibName='mkl'; source('${R_BENCHMARK_SCRIPT}')"
 
     echo "Finished checking MKL"
 }
