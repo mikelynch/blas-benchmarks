@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WGET_OPTIONS="--no-check-certificate"
-MRO_VERSION="3.2.4"
+MRO_VERSION="3.5.1"
 CHECKPOINT_DATE="2016-04-01"
 R_BENCHMARK_SCRIPT="benchmark-sample.R"
 DIR_BLAS="/opt/blas-libs"
@@ -36,18 +36,16 @@ function mro_install {
     # disable CPU throttling for ATLAS multi-threading
     echo performance | tee /sys/devices/system/cpu/cpu**/cpufreq/scaling_governor
 
-    # hack with Microsoft R Open deps
-    wget ${WGET_OPTIONS} http://ftp.pl.debian.org/debian/pool/main/libj/libjpeg8/libjpeg8_8d1-2_amd64.deb
-    gdebi -n libjpeg8_8d1-2_amd64.deb
-    rm libjpeg8_8d1-2_amd64.deb
+    wget https://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb
+    dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb
+    rm libpng12-0_1.2.54-1ubuntu1_amd64.deb
 
     # install Microsoft R Open
-    wget ${WGET_OPTIONS} https://mran.microsoft.com/install/mro/${MRO_VERSION}/MRO-${MRO_VERSION}-Ubuntu-15.4.x86_64.deb
-    gdebi -n MRO-${MRO_VERSION}-Ubuntu-15.4.x86_64.deb
-    rm MRO-${MRO_VERSION}-Ubuntu-15.4.x86_64.deb
-
-    # make symbolic link to R libraries dir
-    ln -s /usr/lib64/MRO-${MRO_VERSION}/R-${MRO_VERSION}/lib/R/lib/ /opt/MRO-lib
+    wget ${WGET_OPTIONS} https://mran.blob.core.windows.net/install/mro/${MRO_VERSION}/microsoft-r-open-${MRO_VERSION}.tar.gz
+    tar xzf microsoft-r-open-${MRO_VERSION}.tar.gz
+    ./microsoft-r-open/install.sh -u
+    rm microsoft-r-open-${MRO_VERSION}.tar.gz
+    rm -r microsoft-r-open/
 
     # prepare R checkpoint
     mkdir ~/.checkpoint
