@@ -230,9 +230,9 @@ function atlas_mt_install {
 
     mkdir ${DIR_ATLAS_MT}
 
-    curl -L https://sourceforge.net/projects/math-atlas/files/Developer%20%28unstable%29/3.11.38/atlas3.11.38.tar.bz2/download > atlas3.11.38.tar.bz2
-    tar -xvf atlas3.11.38.tar.bz2
-    rm atlas3.11.38.tar.bz2
+    curl -L https://sourceforge.net/projects/math-atlas/files/Developer%20%28unstable%29/3.11.41/atlas3.11.41.tar.bz2/download > atlas3.11.41.tar.bz2
+    tar -xvf atlas3.11.41.tar.bz2
+    rm atlas3.11.41.tar.bz2
 
     cd ATLAS
     mkdir build
