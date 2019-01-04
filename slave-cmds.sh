@@ -276,68 +276,6 @@ function atlas_mt_remove {
 }
 
 ##############################################################
-# GotoBLAS2                                                  #
-# - https://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/          #
-# - BLAS + LAPACK                                            #
-# - multi-threaded                                           #
-##############################################################
-
-DIR_GOTOBLAS2="${DIR_BLAS}/gotoblas2"
-
-function gotoblas2_install {
-
-    echo "Started installing GotoBLAS2"
-
-    mkdir ${DIR_GOTOBLAS2}
-
-    wget ${WGET_OPTIONS} https://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/SurviveGotoBLAS2_3.141.tar.gz
-    tar -xvf SurviveGotoBLAS2_3.141.tar.gz
-    rm SurviveGotoBLAS2_3.141.tar.gz
-
-    cd survivegotoblas2-3.141
-    # if target architecture can not be detected, then add to "make" e.g. TARGET=CORE2 ; see 3. in 02QuickInstall.txt
-    # fix "invalid operands (*UND* and *ABS* sections) for `*'" error: add "BINARY=64 DYNAMIC_ARCH=1" to "make"
-    make REFBLAS_ANTILOGY=1 NO_CBLAS=1 GOTOBLASLIBSONAME=libgoto2blas.so GOTOLAPACKLIBSONAME=libgoto2lapack.so -j ${NPROC}
-    
-    cp exports/libgoto2blas.so   ${DIR_GOTOBLAS2}
-    cp exports/libgoto2lapack.so ${DIR_GOTOBLAS2}
-    
-    cd ..
-    rm -r survivegotoblas2-3.141
-    
-    Rscript -e "library(checkpoint); checkpoint('${CHECKPOINT_DATE}', scanForPackages=FALSE, verbose=FALSE); install.packages('RhpcBLASctl')"
-    
-    echo "Installed files:"
-    find ${DIR_GOTOBLAS2} -type f
-
-    echo "Finished installing GotoBLAS2"
-}
-
-function gotoblas2_check {
-
-    echo "Started checking GotoBLAS2"
-
-    echo "${DIR_GOTOBLAS2}" > /etc/ld.so.conf.d/gotoblas2.conf
-    ldconfig
-    
-    LD_PRELOAD="${DIR_GOTOBLAS2}/libgoto2blas.so ${DIR_GOTOBLAS2}/libgoto2lapack.so" GOTO_NUM_THREADS=1 Rscript -e "blasLibName='gotoblas2'; library(checkpoint); checkpoint('${CHECKPOINT_DATE}', scanForPackages=FALSE, verbose=FALSE); library(RhpcBLASctl); blas_set_num_threads(${NPROC}); source('${R_BENCHMARK_SCRIPT}')"
-    
-    rm /etc/ld.so.conf.d/gotoblas2.conf
-    ldconfig
-
-    echo "Finished checking GotoBLAS2"
-}
-
-function gotoblas2_remove {
-
-    echo "Started removing GotoBLAS2"
-
-    rm ${DIR_GOTOBLAS2} -r
-
-    echo "Finished removing GotoBLAS2"
-}
-
-##############################################################
 # MKL                                                        #
 # - https://mran.microsoft.com/documents/rro/multithread/    #
 # - BLAS + LAPACK                                            #
