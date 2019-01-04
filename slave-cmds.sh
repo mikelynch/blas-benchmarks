@@ -2,7 +2,6 @@
 
 WGET_OPTIONS="--no-check-certificate"
 MRO_VERSION="3.5.1"
-CHECKPOINT_DATE="2016-04-01"
 R_BENCHMARK_SCRIPT="benchmark-sample.R"
 DIR_BLAS="/opt/blas-libs"
 
@@ -46,13 +45,6 @@ function mro_install {
     rm microsoft-r-open-${MRO_VERSION}.tar.gz
     rm -r microsoft-r-open/
 
-    # prepare R checkpoint
-    mkdir ~/.checkpoint
-    Rscript -e "library(checkpoint); checkpoint('${CHECKPOINT_DATE}')"
-    sed -i "1i\library(checkpoint); checkpoint('${CHECKPOINT_DATE}', scanForPackages=FALSE, verbose=FALSE)" benchmark-sample.R
-    sed -i "1i\library(checkpoint); checkpoint('${CHECKPOINT_DATE}', scanForPackages=FALSE, verbose=FALSE)" benchmark-urbanek.R
-    sed -i "1i\library(checkpoint); checkpoint('${CHECKPOINT_DATE}', scanForPackages=FALSE, verbose=FALSE)" benchmark-revolution.R
-    sed -i "1i\library(checkpoint); checkpoint('${CHECKPOINT_DATE}', scanForPackages=FALSE, verbose=FALSE)" benchmark-gcbd.R
 
     # make directory for BLAS and LAPACK libraries
     mkdir -p ${DIR_BLAS}
