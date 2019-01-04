@@ -29,7 +29,8 @@ function mro_install {
     DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y upgrade
 
     # install core packages
-    apt-get -y install build-essential gfortran ed htop libxml2-dev ca-certificates curl libcurl4-openssl-dev gdebi-core sshpass git cpufrequtils cmake initramfs-tools linux-headers-$(uname -r) bc python wget
+    apt-get -y install build-essential gfortran ed htop libxml2-dev ca-certificates curl libcurl4-openssl-dev gdebi-core sshpass git cpufrequtils cmake initramfs-tools bc python wget
+    apt-get -y install linux-headers-$(uname -r)
 
     # disable CPU throttling for ATLAS multi-threading
     echo performance | tee /sys/devices/system/cpu/cpu**/cpufreq/scaling_governor
