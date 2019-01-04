@@ -45,6 +45,7 @@ function mro_install {
     rm microsoft-r-open-${MRO_VERSION}.tar.gz
     rm -r microsoft-r-open/
 
+    Rscript -e "install.packages('SuppDists')"
 
     # make directory for BLAS and LAPACK libraries
     mkdir -p ${DIR_BLAS}
